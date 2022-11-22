@@ -77,6 +77,7 @@ function App() {
         description: todo.description,
         dueDate: todo.dueDate,
         isCompleted: false,
+        file: todo.file
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
@@ -107,12 +108,12 @@ function App() {
     await updateDoc(userDoc, updatedField)
   }
  
- function uploadFile() {
-   if (fileUpload == null) return;
-   const fileRef = ref(storage, `files/${fileUpload.name + new Date().getTime()}`)
-   const uploadFile = uploadBytes(fileRef, fileUpload)
-   console.log('uploadFile', uploadFile)
- }
+ //function uploadFile() {
+ //  if (fileUpload == null) return;
+ //  const fileRef = ref(storage, `files/${fileUpload.name + new Date().getTime()}`)
+ //  const uploadFile = uploadBytes(fileRef, fileUpload)
+ //  console.log('uploadFile', uploadFile)
+ //}
 
 
  useEffect(() => {
