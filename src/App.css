@@ -10,13 +10,6 @@
   max-width: 480px;
 }
 
-.page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .from-input {
   display: block;
   padding: 10px;
@@ -24,19 +17,22 @@
   background-color: rgb(243, 239, 233);
   border-radius: 5px;
   margin-bottom: 5px;
-  width: 250px;
+  width: 400px;
 }
 
 .task__header {
   display: flex;
-  border-bottom: 1px solid grey;
   padding: 5px;
-  max-width: 500px;
   justify-content: space-between;
+  background-color:  rgb(243, 239, 233);
+  border-radius: 5px;
 }
 
 .task__body {
   padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid gray;
 }
 
 .task {
@@ -46,17 +42,22 @@
   padding: 5px;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
   border-radius: 16px;
-  width: 600px;
-  margin-bottom: 15px;
+  width: 800px;
+  margin-bottom: 20px;
 }
 
 .task__title {
-  margin-right: 15px;
+  flex: 0 0 600px;
 }
 
+.task__item_done {
+  text-decoration: line-through;
+}
+
+
 .checkbox {
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   border: 1px solid black;
   border-radius: 50%;
   background-color: transparent;
@@ -67,8 +68,8 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   border: none;
   background-color: transparent;
 }
@@ -77,12 +78,28 @@
   background-image: url('./images/trash-can-10409.svg');
   background-position: center;
   background-size: contain;
-  width: 17px;
-  height: 15px;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 18px;
   background-color: transparent;
   border: none;
 
 }
+
+.submit-btn {
+  background-color: rgb(243, 239, 233);
+  padding: 10px 168px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  transition: opacity 0.3s ease;
+}
+
+.submit-btn:hover, .delete-btn:hover, .checkbox:hover, .checkbox-checked:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
 
 .submit-btn:disabled {
    background-color: gray;
@@ -99,6 +116,14 @@
   width: 100%;
   object-position: center;
   object-fit: contain;
+}
+
+.task__container {
+  flex: 0 0 700px;
+}
+
+.task__description {
+  flex: 0 0 650px;
 }
 
 

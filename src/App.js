@@ -3,7 +3,6 @@ import React, {useState, useEffect} from 'react';
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc, onSnapshot  } from "firebase/firestore"; 
 import {useCollectionData} from 'react-firebase-hooks/firestore';
 import 'firebase/firestore'
-import { getFirestore } from "firebase/firestore";
 import {db, storage} from './firebase';
 import {ref, uploadBytes, uploadBytesResumable, getDownloadURL} from 'firebase/storage';
 import docPicture from './images/doc.svg'
@@ -77,7 +76,6 @@ function App() {
         name: todo.name,
         description: todo.description,
         dueDate: todo.dueDate,
-        file: todo.file,
         isCompleted: false,
       });
       console.log("Document written with ID: ", docRef.id);
@@ -168,32 +166,33 @@ console.log('file', file)
   return (
     <div className="wrapper">
       <div className='page'>
+        <h1 className='title'>Todo List</h1>
         <form className='form' onSubmit={handleSubmit}>
           <input className='from-input' placeholder='Название' name='name' value={name || ''} onChange={handleChange}/>
           <input className='from-input' placeholder='Описание' name='description' value={description || ''} onChange={handleChange}/>
           <input type='date' className='from-input' placeholder='Дата завершения' name='dueDate' value={dueDate || ''} onChange={handleChange}/>
-          <input type='file' className='from-input' placeholder='Название' name='file'  onChange={(e) =>setFile(e.target.files[0])}/>
+          <input type='file' className='from-input' name='file' onChange={(e) =>setFile(e.target.files[0])}/>
           <button disabled={uploadProgress !== null && uploadProgress < 100} className='submit-btn'>Сохранить</button>
         </form>
 
         <div className='body'>
 
           {
-            todosDb.map((todoItem, index) => (
-            <div className='task' key={index}>
+            todosDb.map((todoItem) => (
+            <div className='task' key={todoItem.id}>
               <button className={`${todoItem.isCompleted ? 'checkbox-checked' : 'checkbox'}`} onClick={() => toggleCheckbox(todoItem.id, todoItem.isCompleted)}></button>
               <div className='task__container'>
               <div className='task__header'>
-                <div className='task__title'>{todoItem.name}</div>
+                <div className={`'task__title' ${todoItem.isCompleted ? 'task__item_done' : ''}`}>{todoItem.name}</div>
                 <div className='task__due-date'>{todoItem.dueDate}</div>
               </div>
               <div className='task__body'>
-                <div className='task__description'>{todoItem.description}</div>
-                
+                <div className={`'task__description' ${todoItem.isCompleted ? 'task__item_done' : ''}`}>{todoItem.description}</div>
+                { todoItem.file &&
                   <div className='task__doc'>
-                    <a href={todoItem.file}><img className='task__doc-pic' src={docPicture} alt='Значок документа для скачивания'/></a>
+                    <a href={todoItem.file} target='_blank' rel="noreferrer"><img className='task__doc-pic' src={docPicture} alt='Значок документа для скачивания'/></a>
                   </div>
-                
+                }
               </div>
               </div>
               
