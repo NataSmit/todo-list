@@ -1,9 +1,14 @@
 import React from "react";
 import docPicture from "../../images/doc.svg";
 
-export default function Todo({ todoItem, toggleCheckbox, handleDeleteTask }) {
+export default function Todo({
+  todoItem,
+  toggleCheckbox,
+  handleDeleteTask,
+  isDateExpired,
+}) {
   return (
-    <li className="task">
+    <li className={`task ${isDateExpired ? "task_type_expired" : ""}`}>
       <button
         className={`${todoItem.isCompleted ? "checkbox-checked" : "checkbox"}`}
         onClick={() => toggleCheckbox(todoItem.id, todoItem.isCompleted)}

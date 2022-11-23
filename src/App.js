@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   collection,
   addDoc,
@@ -32,21 +32,35 @@ function App() {
 
   const { name, description, dueDate } = todo;
   const [uploadProgress, setUploadProgress] = useState(null);
-
-  const [todos, setTodos] = useState([]);
+  const [expiredTodos, setExpiredTodos] = useState([]);
+  const fileInputRef = useRef(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const unsub = onSnapshot(
+      // get realtime updates
       collection(db, "todos"),
       (snapShot) => {
         let list = [];
+        const expiredTodos = [];
         snapShot.docs.forEach((doc) => {
+          const docDate = new Date(doc.data().dueDate);
+          const docDateWithoutHours = new Date(docDate.toDateString());
+          const currentDateWithoutHours = new Date(new Date().toDateString());
+          if (
+            docDateWithoutHours.getTime() === currentDateWithoutHours.getTime()
+          ) {
+            expiredTodos.push(doc.id);
+          }
+
           list.push({ ...doc.data(), id: doc.id });
         });
         setTodosDb(list);
+        setExpiredTodos(expiredTodos);
       },
       (error) => {
         console.log(error);
+        setError(true);
       }
     );
 
@@ -63,7 +77,6 @@ function App() {
       );
 
       const uploadTask = uploadBytesResumable(storageRef, file);
-
       // Register three observers:
       // 1. 'state_changed' observer, called any time the state changes
       // 2. Error observer, called on failure
@@ -109,20 +122,20 @@ function App() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setTodos([...todos, todo]);
     try {
       const docRef = await addDoc(collection(db, "todos"), {
         name: todo.name,
         description: todo.description,
         dueDate: todo.dueDate,
         isCompleted: false,
-        file: todo.file,
+        file: todo.file || "",
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
     setTodo(emptyTodo);
+    fileInputRef.current.value = null;
   }
 
   async function handleDeleteTask(id) {
@@ -133,9 +146,16 @@ function App() {
   async function toggleCheckbox(id, isCompleted) {
     const userDoc = doc(db, "todos", id);
     const updatedField = { isCompleted: !isCompleted };
-    console.log("isCompleted", isCompleted);
     await updateDoc(userDoc, updatedField);
   }
+
+  const isTaskExpired = (id) => {
+    const isExpired = expiredTodos.find((todoId) => {
+      return todoId === id;
+    });
+
+    return Boolean(isExpired);
+  };
 
   return (
     <div className="wrapper">
@@ -169,6 +189,7 @@ function App() {
             className="from-input"
             name="file"
             onChange={(e) => setFile(e.target.files[0])}
+            ref={fileInputRef}
           />
           <button
             disabled={uploadProgress !== null && uploadProgress < 100}
@@ -179,6 +200,7 @@ function App() {
         </form>
 
         <div className="body">
+          {error && <p>Server unavailable</p>}
           <ul className="body__container">
             {todosDb.map((todoItem) => (
               <Todo
@@ -186,6 +208,7 @@ function App() {
                 key={todoItem.id}
                 toggleCheckbox={toggleCheckbox}
                 handleDeleteTask={handleDeleteTask}
+                isDateExpired={isTaskExpired(todoItem.id)}
               />
             ))}
           </ul>

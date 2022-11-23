@@ -4,6 +4,7 @@
   justify-content: space-between;
   background-color:  rgb(243, 239, 233);
   border-radius: 5px;
+  min-height: 15px;
 }
 
 .task__body {
@@ -11,6 +12,7 @@
   display: flex;
   justify-content: space-between;
   border-top: 1px solid gray;
+  min-height: 15px;
 }
 
 .task {
@@ -22,6 +24,10 @@
   border-radius: 16px;
   width: 800px;
   margin-bottom: 20px;
+}
+
+.task_type_expired {
+  border: 1px solid red;
 }
 
 .task__title {

@@ -1,33 +1,21 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-
-
-// TODO: Add SDKs for Firebase products that you want to use
-
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-
 const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
 
-  apiKey: "AIzaSyD2S9iiEd6yfp92WYQ0Z9i8J-wQgc68gQA",
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
 
-  authDomain: "todo-app-72980.firebaseapp.com",
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
 
-  projectId: "todo-app-72980",
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
 
-  storageBucket: "todo-app-72980.appspot.com",
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
 
-  messagingSenderId: "425582183696",
-
-  appId: "1:425582183696:web:392f3418778cc34ea99195"
-
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
-
-
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-export const storage = getStorage(app)
+export const storage = getStorage(app);
