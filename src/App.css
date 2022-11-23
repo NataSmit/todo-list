@@ -38,10 +38,15 @@
   border: none;
   border-radius: 5px;
   margin-top: 10px;
-  transition: opacity 0.3s ease;
+  border: 2px solid transparent;
 }
 
-.submit-btn:hover, .delete-btn:hover, .checkbox:hover, .checkbox-checked:hover {
+.submit-btn:hover {
+  cursor: pointer;
+  border: 2px solid rgb(240, 221, 193);
+}
+
+.delete-btn:hover, .checkbox:hover, .checkbox-checked:hover {
   cursor: pointer;
   opacity: 0.7;
 }
