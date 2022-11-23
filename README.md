@@ -10,4 +10,4 @@
 
 - Google Firebase для backend
 - Vercel для frontend
-- React
+- React 

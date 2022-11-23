@@ -76,11 +76,8 @@ function App() {
         `files/${new Date().getTime() + file.name}`
       );
 
+      //Monitor Upload Progress
       const uploadTask = uploadBytesResumable(storageRef, file);
-      // Register three observers:
-      // 1. 'state_changed' observer, called any time the state changes
-      // 2. Error observer, called on failure
-      // 3. Completion observer, called on successful completion
       uploadTask.on(
         "state_changed",
         (snapshot) => {
