@@ -11,3 +11,4 @@
 - Google Firebase для backend
 - Vercel для frontend
 - React 
+- JSDoc

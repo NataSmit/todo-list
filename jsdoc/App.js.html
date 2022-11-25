@@ -1,4 +1,32 @@
-import "./App.css";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: App.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: App.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import "./App.css";
 import React, { useState, useEffect, useRef } from "react";
 import {
   collection,
@@ -13,6 +41,7 @@ import { db, storage } from "./firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import Todo from "./components/Todo/Todo";
 
+
 const emptyTodo = {
   name: "",
   description: "",
@@ -21,6 +50,7 @@ const emptyTodo = {
 };
 
 function App() {
+
   const [file, setFile] = useState("");
   const [todosDb, setTodosDb] = useState([]);
   const [todo, setTodo] = useState({
@@ -49,7 +79,7 @@ function App() {
           const docDateWithoutHours = new Date(docDate.toDateString());
           const currentDateWithoutHours = new Date(new Date().toDateString());
           if (
-            docDateWithoutHours.getTime() <= currentDateWithoutHours.getTime()
+            docDateWithoutHours.getTime() === currentDateWithoutHours.getTime()
           ) {
             expiredTasks.push(doc.id);
           }
@@ -69,6 +99,7 @@ function App() {
       unsub();
     };
   }, []);
+
 
   useEffect(() => {
     const uploadFile = () => {
@@ -110,8 +141,9 @@ function App() {
         }
       );
     };
-    file && uploadFile();
+    file &amp;&amp; uploadFile();
   }, [file]);
+
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -140,6 +172,12 @@ function App() {
     const userDoc = doc(db, "todos", id);
     await deleteDoc(userDoc);
   }
+  
+  /**
+   * @type {Function}
+   * @param {string} id todo's id
+   * @param {boolean} isCompleted 
+   */
 
   async function toggleCheckbox(id, isCompleted) {
     const userDoc = doc(db, "todos", id);
@@ -147,6 +185,12 @@ function App() {
     await updateDoc(userDoc, updatedField);
   }
 
+  /**
+   * Checks if there're expired todos
+   * @type {Function}
+   * @param {string} id todo's id received from DB
+   * @returns {boolean}
+   */
   const isTaskExpired = (id) => {
     const isExpired = expiredTodos.find((todoId) => {
       return todoId === id;
@@ -156,25 +200,25 @@ function App() {
   };
 
   return (
-    <div className="wrapper">
-      <div className="page">
-        <h1 className="title">Todo List</h1>
-        <form className="form" onSubmit={handleSubmit}>
-          <input
+    &lt;div className="wrapper">
+      &lt;div className="page">
+        &lt;h1 className="title">Todo List&lt;/h1>
+        &lt;form className="form" onSubmit={handleSubmit}>
+          &lt;input
             className="from-input"
             placeholder="Название"
             name="name"
             value={name || ""}
             onChange={handleChange}
           />
-          <input
+          &lt;input
             className="from-input"
             placeholder="Описание"
             name="description"
             value={description || ""}
             onChange={handleChange}
           />
-          <input
+          &lt;input
             type="date"
             className="from-input"
             placeholder="Дата завершения"
@@ -182,26 +226,26 @@ function App() {
             value={dueDate || ""}
             onChange={handleChange}
           />
-          <input
+          &lt;input
             type="file"
             className="from-input"
             name="file"
             onChange={(e) => setFile(e.target.files[0])}
             ref={fileInputRef}
           />
-          <button
-            disabled={uploadProgress !== null && uploadProgress < 100}
+          &lt;button
+            disabled={uploadProgress !== null &amp;&amp; uploadProgress &lt; 100}
             className="submit-btn"
           >
             Сохранить
-          </button>
-        </form>
+          &lt;/button>
+        &lt;/form>
 
-        <div className="body">
-          {error && <p>Server unavailable</p>}
-          <ul className="body__container">
+        &lt;div className="body">
+          {error &amp;&amp; &lt;p>Server unavailable&lt;/p>}
+          &lt;ul className="body__container">
             {todosDb.map((todoItem) => (
-              <Todo
+              &lt;Todo
                 todoItem={todoItem}
                 key={todoItem.id}
                 toggleCheckbox={toggleCheckbox}
@@ -209,11 +253,34 @@ function App() {
                 isDateExpired={isTaskExpired(todoItem.id)}
               />
             ))}
-          </ul>
-        </div>
-      </div>
-    </div>
+          &lt;/ul>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
   );
 }
 
 export default App;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.0</a> on Fri Nov 25 2022 16:59:43 GMT+0300 (Москва, стандартное время)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

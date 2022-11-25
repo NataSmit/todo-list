@@ -1,6 +1,20 @@
 import React from "react";
 import docPicture from "../../images/doc.svg";
 
+/**
+ *
+ * @typedef PropType
+ * @property {Object} props TodoItem Component's props
+ * @property {Object} props.todoItem  object which includes title, due date, description, file
+ * @property {function} props.toggleCheckbox function toggles check mark that indicates whether the task is done or not
+ * @property {function} props.handleDeleteTask removes a todo item
+ * @property {boolean} props.isDateExpired indicates whether task's due date is expired or not
+ */
+
+/**
+ * @param {PropType}
+ */
+
 export default function Todo({
   todoItem,
   toggleCheckbox,
